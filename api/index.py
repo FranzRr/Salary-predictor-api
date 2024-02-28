@@ -5,14 +5,12 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 from flask_cors import CORS
 
-df = pd.read_csv("jobs_in_data.csv")
+df = pd.read_csv("api/jobs_in_data.csv")
 df_clean = df.loc[:, ["work_year", "job_category", "experience_level", "work_setting", "salary_in_usd"]]
 X = df_clean.copy().dropna()
 scalery = StandardScaler().fit(X["salary_in_usd"].to_frame())
 
-model = load_model('./myModel.keras')
-
-input = []
+model = load_model('api/myModel.keras')
 
 app = Flask(__name__)
 CORS(app)
