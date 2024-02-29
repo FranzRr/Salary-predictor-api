@@ -42,5 +42,11 @@ def get():
 		"salario": newOutput[0][0]
 	}
 
+@app.route('/api/ping', methods=['GET'])
+def ping():
+	return {
+		"res": "ponse"
+	}
+
 if __name__ == '__main__':
 	app.run(port=10000)
