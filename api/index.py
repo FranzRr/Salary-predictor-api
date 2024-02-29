@@ -1,16 +1,17 @@
 from flask import Flask, request
 import pandas as pd
-from keras.models import load_model
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from flask_cors import CORS
+import onnxruntime
 
 df = pd.read_csv("api/jobs_in_data.csv")
 df_clean = df.loc[:, ["work_year", "job_category", "experience_level", "work_setting", "salary_in_usd"]]
 X = df_clean.copy().dropna()
 scalery = StandardScaler().fit(X["salary_in_usd"].to_frame())
 
-model = load_model('api/myModel.keras')
+#model = load_model('api/myModel.keras')
+session = onnxruntime.InferenceSession('api/myModel.onnx')
 
 app = Flask(__name__)
 CORS(app)
@@ -25,18 +26,15 @@ def get():
 	input = []
 	newInput = []
 	input.append(year)
-	for jobs in job:
-		input.append(jobs)
-	for exps in exp:
-		input.append(exps)
-	for modes in mode:
-		input.append(modes)		
+	input.extend(job)
+	input.extend(exp)
+	input.extend(mode)
 	newInput.append(input)
 
-	newInput =  np.array(newInput)
+	newInput =  np.array(newInput, dtype='f')
 
-	prediction = model.predict(newInput)
-	output = scalery.inverse_transform(prediction)
+	prediction = session.run(None, {'x': newInput})
+	output = scalery.inverse_transform(prediction[0])
 
 	newOutput = output.tolist()
 
