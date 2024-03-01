@@ -8,7 +8,11 @@ API creada en Python, que predice el salario de una persona, basado en:
 
 Stack utilizado: Flask, onnxruntime, pandas, sickit_learn, numpy.
 
-Esta API recibe un modelo pre-entrenado creado desde cero con TensorFlow y Keras, una red neuronal que resuelve el problema de regresión de predecir el salario.
+Esta API recibe un modelo pre-entrenado creado desde cero con TensorFlow y Keras, una red neuronal que resuelve el problema de regresión de predecir el salario, y retorna el salario predecido.
+
+Repositorio Frontend: https://github.com/Franz04Rony/salary-prediction
+
+Try the app: https://salary-prediction-kappa.vercel.app
 
 ## Ejecución en local
 Es recomendable utilizar un Virtual Environment. Luego ejecutar:
